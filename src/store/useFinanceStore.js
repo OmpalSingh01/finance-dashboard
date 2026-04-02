@@ -74,6 +74,8 @@ const useFinanceStore = create(
 
   setSortOrder: (sortOrder) => set({ sortOrder }),
 
+  setDarkMode: (darkMode) => set({ darkMode }),
+
   toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
 
   addTransaction: (newTransaction) =>
