@@ -68,14 +68,14 @@ export default function TransactionTable() {
   }
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-slate-800">
+          <h2 className="text-lg font-semibold text-slate-800 dark:text-white">
             Transactions
           </h2>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 dark:text-slate-400">
             Search and filter financial activities
           </p>
         </div>
@@ -83,7 +83,7 @@ export default function TransactionTable() {
         {role === 'admin' && (
           <button
             onClick={() => setShowAddForm(true)}
-            className="rounded-lg bg-slate-900 px-4 py-2 text-sm text-white hover:opacity-90"
+            className="rounded-lg bg-slate-900 px-4 py-2 text-sm text-white hover:opacity-90 dark:bg-slate-700 dark:hover:bg-slate-600"
           >
             + Add Transaction
           </button>
@@ -97,13 +97,13 @@ export default function TransactionTable() {
           placeholder="Search by category..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full rounded-lg border border-slate-300 px-4 py-2 outline-none focus:ring-2 focus:ring-slate-300"
+          className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2 text-slate-900 outline-none focus:ring-2 focus:ring-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:focus:ring-slate-500 dark:placeholder-slate-400"
         />
 
         <select
           value={filterType}
           onChange={(e) => setFilterType(e.target.value)}
-          className="rounded-lg border border-slate-300 px-4 py-2"
+          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-slate-900 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
         >
           <option value="all">All</option>
           <option value="income">Income</option>
@@ -115,27 +115,27 @@ export default function TransactionTable() {
       <div className="overflow-x-auto">
         <table className="w-full min-w-[600px]">
           <thead>
-            <tr className="border-b border-slate-200 text-left text-sm text-slate-500">
+            <tr className="border-b border-slate-200 text-left text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
               <th
-                className="pb-3 cursor-pointer hover:text-slate-700 select-none"
+                className="pb-3 cursor-pointer hover:text-slate-700 select-none dark:hover:text-slate-200"
                 onClick={() => handleSort('date')}
               >
                 Date {sortBy === 'date' && (sortOrder === 'asc' ? '↑' : '↓')}
               </th>
               <th
-                className="pb-3 cursor-pointer hover:text-slate-700 select-none"
+                className="pb-3 cursor-pointer hover:text-slate-700 select-none dark:hover:text-slate-200"
                 onClick={() => handleSort('category')}
               >
                 Category {sortBy === 'category' && (sortOrder === 'asc' ? '↑' : '↓')}
               </th>
               <th
-                className="pb-3 cursor-pointer hover:text-slate-700 select-none"
+                className="pb-3 cursor-pointer hover:text-slate-700 select-none dark:hover:text-slate-200"
                 onClick={() => handleSort('type')}
               >
                 Type {sortBy === 'type' && (sortOrder === 'asc' ? '↑' : '↓')}
               </th>
               <th
-                className="pb-3 cursor-pointer hover:text-slate-700 select-none"
+                className="pb-3 cursor-pointer hover:text-slate-700 select-none dark:hover:text-slate-200"
                 onClick={() => handleSort('amount')}
               >
                 Amount {sortBy === 'amount' && (sortOrder === 'asc' ? '↑' : '↓')}
@@ -148,12 +148,12 @@ export default function TransactionTable() {
               sortedTransactions.map((tx) => (
                 <tr
                   key={tx.id}
-                  className="border-b border-slate-100"
+                  className="border-b border-slate-100 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-700"
                 >
-                  <td className="py-3">{tx.date}</td>
-                  <td>{tx.category}</td>
-                  <td className="capitalize">{tx.type}</td>
-                  <td className="text-right font-medium">
+                  <td className="py-3 text-slate-900 dark:text-white">{tx.date}</td>
+                  <td className="text-slate-900 dark:text-white">{tx.category}</td>
+                  <td className="capitalize text-slate-900 dark:text-white">{tx.type}</td>
+                  <td className="text-right font-medium text-slate-900 dark:text-white">
                     ₹{tx.amount.toLocaleString()}
                   </td>
                 </tr>
@@ -165,10 +165,10 @@ export default function TransactionTable() {
                     className="py-8 text-center"
                 >
                     <div className="flex flex-col items-center justify-center">
-                    <p className="text-lg font-medium text-slate-500">
+                    <p className="text-lg font-medium text-slate-500 dark:text-slate-400">
                         No transactions found
                     </p>
-                    <p className="text-sm text-slate-400">
+                    <p className="text-sm text-slate-400 dark:text-slate-500">
                         Try changing search or filter criteria
                     </p>
                     </div>
