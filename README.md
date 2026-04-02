@@ -62,6 +62,10 @@ A modern, professional finance dashboard built with React, Vite, and Tailwind CS
    cd finance-dashboard
    ```
 
+## 🌐 Live Demo
+
+- Hosted on Vercel: https://finance-dashboard-lac-rho.vercel.app/
+
 2. **Install dependencies**
    ```bash
    npm install
