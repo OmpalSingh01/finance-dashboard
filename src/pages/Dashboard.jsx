@@ -6,7 +6,6 @@ import TransactionTable from '../components/TransactionTable'
 import RoleSwitcher from '../components/RoleSwitcher'
 import InsightsPanel from '../components/InsightsPanel'
 import DarkModeToggle from '../components/DarkModeToggle'
-import Footer from '../components/Footer'
 
 export default function Dashboard() {
   const { getSummary, transactions, darkMode } = useFinanceStore()
@@ -59,8 +58,6 @@ export default function Dashboard() {
 
         <TransactionTable />
         <InsightsPanel />
-
-        <Footer />
       </div>
     </div>
   )
