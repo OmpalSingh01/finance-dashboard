@@ -14,14 +14,16 @@ export default function RoleSwitcher() {
         </p>
       </div>
 
-      <select
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
-        className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-slate-900 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
-      >
-        <option value="viewer">Viewer</option>
-        <option value="admin">Admin</option>
-      </select>
+      <div className="w-full md:w-auto min-w-0 overflow-visible">
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          className="w-full max-w-[220px] md:w-48 rounded-lg border border-slate-300 bg-white px-4 py-2 text-slate-900 dark:border-slate-600 dark:bg-slate-700 dark:text-white z-50 relative"
+        >
+          <option value="viewer">Viewer</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
     </div>
   )
 }
