@@ -56,7 +56,7 @@ export default function Footer() {
                 <span>support@financedashboard.com</span>
               </a>
               <a
-                href="https://github.com"
+                href="https://github.com/OmpalSingh01/finance-dashboard"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 text-sm text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
@@ -86,7 +86,7 @@ export default function Footer() {
 
           {/* Version Info */}
           <div className="mt-4 text-center text-xs text-slate-400 dark:text-slate-500">
-            Version 1.0.0 • Built with React & Tailwind CSS
+            Version 2.0.0 • Built with React & Tailwind CSS
           </div>
         </div>
       </div>
