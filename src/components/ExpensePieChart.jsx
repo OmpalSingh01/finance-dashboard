@@ -54,11 +54,11 @@ export default function ExpensePieChart() {
               dataKey="value"
               nameKey="name"
               innerRadius={70}
-              outerRadius={110}
+              outerRadius={100}
               paddingAngle={4}
               cornerRadius={8}
               stroke="none"
-              label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+              label={false}
             >
               {pieData.map((entry, index) => (
                 <Cell
@@ -69,19 +69,28 @@ export default function ExpensePieChart() {
             </Pie>
 
             <Tooltip
-              contentStyle={{
-                borderRadius: '12px',
-                border: '1px solid #e2e8f0',
-                boxShadow: '0 4px 14px rgba(0,0,0,0.08)',
-              }}
-              formatter={(value) => [`₹${value.toLocaleString()}`, 'Spent']}
-            />
+  contentStyle={{
+    borderRadius: '12px',
+    border: '1px solid #e2e8f0',
+    boxShadow: '0 4px 14px rgba(0,0,0,0.08)',
+  }}
+  formatter={(value, name) => {
+    const percent = totalExpense
+      ? ((value / totalExpense) * 100).toFixed(1)
+      : 0
+
+    return [`₹${value.toLocaleString()} • ${percent}%`, `${name}`]
+  }}
+  separator=": "
+/>
 
             <Legend
               verticalAlign="bottom"
-              height={36}
               iconType="circle"
-              wrapperStyle={{ paddingTop: '20px' }}
+              wrapperStyle={{
+                paddingTop: '16px',
+                fontSize: '12px',
+              }}
             />
           </PieChart>
         </ResponsiveContainer>

@@ -269,7 +269,7 @@ export default function TransactionTable() {
         
         <div className="max-h-[460px] overflow-y-auto backdrop-blur-sm">
           <table className="w-full">
-            <thead className="bg-slate-50 dark:bg-slate-700/50">
+            <thead className="sticky top-0 z-10 bg-slate-50 dark:bg-slate-700/50 backdrop-blur-sm">
             <tr>
               <th
                 className="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider cursor-pointer hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-600/50 transition-colors"
