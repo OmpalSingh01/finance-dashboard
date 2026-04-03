@@ -1,3 +1,4 @@
+import { useMemo, useState } from 'react'
 import {
   AreaChart,
   Area,
@@ -12,8 +13,40 @@ import useFinanceStore from '../store/useFinanceStore'
 
 export default function BalanceChart() {
   const { transactions } = useFinanceStore()
+  const [range, setRange] = useState('lastMonth')
 
-  const sortedTransactions = [...transactions].sort(
+  const filteredTransactions = useMemo(() => {
+    const now = new Date()
+
+    return transactions.filter((tx) => {
+      const txDate = new Date(tx.date)
+
+      switch (range) {
+        case 'lastMonth': {
+          const lastMonth = new Date()
+          lastMonth.setMonth(now.getMonth() - 1)
+          return (
+            txDate.getMonth() === lastMonth.getMonth() &&
+            txDate.getFullYear() === lastMonth.getFullYear()
+          )
+        }
+
+        case 'lastYear':
+          return txDate.getFullYear() === now.getFullYear() - 1
+
+        case '2025':
+          return txDate.getFullYear() === 2025
+
+        case '2024':
+          return txDate.getFullYear() === 2024
+
+        default:
+          return true
+      }
+    })
+  }, [transactions, range])
+
+  const sortedTransactions = [...filteredTransactions].sort(
     (a, b) => new Date(a.date) - new Date(b.date)
   )
 
@@ -40,9 +73,16 @@ export default function BalanceChart() {
           Balance Trend
         </h2>
 
-        <span className="text-sm text-slate-500 dark:text-slate-400">
-          Running balance over time
-        </span>
+        <select
+          value={range}
+          onChange={(e) => setRange(e.target.value)}
+          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+        >
+          <option value="lastMonth">Last Month</option>
+          <option value="lastYear">Last Year</option>
+          <option value="2025">2025</option>
+          <option value="2024">2024</option>
+        </select>
       </div>
 
       {chartData.length > 0 ? (
