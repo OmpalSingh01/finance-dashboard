@@ -15,7 +15,8 @@ import {
 } from 'lucide-react'
 import useFinanceStore from '../store/useFinanceStore'
 
-function InsightRow({ label, value, icon: Icon, color = '' }) {
+function InsightRow({ label, value, icon, color = '' }) {
+  const Icon = icon
   return (
     <div className="flex items-center justify-between rounded-lg bg-slate-50 p-3 dark:bg-slate-700/50">
       <div className="flex items-center gap-2">

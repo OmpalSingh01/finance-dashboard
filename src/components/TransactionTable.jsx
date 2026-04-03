@@ -323,22 +323,29 @@ export default function TransactionTable() {
                   }`}
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-slate-900 dark:text-white">
-                      {new Date(tx.datetime || tx.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                      })}
-                    </div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400">
-                      {new Date(tx.datetime || tx.date).toLocaleDateString('en-US', { weekday: 'short' })},
-                      {' '}
-                      {new Date(tx.datetime || tx.date).toLocaleTimeString('en-US', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: false,
-                      })}
-                    </div>
+                    {(() => {
+                      const datePart = new Date(`${tx.date}T00:00:00`)
+                      const timePart = tx.datetime ? new Date(tx.datetime) : datePart
+                      return (
+                        <>
+                          <div className="text-sm font-medium text-slate-900 dark:text-white">
+                            {datePart.toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                            })}
+                          </div>
+                          <div className="text-xs text-slate-500 dark:text-slate-400">
+                            {datePart.toLocaleDateString('en-US', { weekday: 'short' })}, {' '}
+                            {timePart.toLocaleTimeString('en-US', {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                              hour12: false,
+                            })}
+                          </div>
+                        </>
+                      )
+                    })()}
                   </td>
 
                   <td className="hidden sm:table-cell px-6 py-4 whitespace-nowrap">

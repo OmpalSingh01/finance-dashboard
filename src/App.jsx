@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Dashboard from './pages/Dashboard'
 import useFinanceStore from './store/useFinanceStore'
+import { Toaster } from 'react-hot-toast'
 
 export default function App() {
   const { darkMode } = useFinanceStore()
@@ -13,5 +14,20 @@ export default function App() {
     }
   }, [darkMode])
 
-  return <Dashboard />
+  return (
+    <>
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          duration: 2500,
+          style: {
+            borderRadius: '12px',
+            padding: '12px 16px',
+          },
+        }}
+      />
+
+      <Dashboard />
+    </>
+  )
 }

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import useFinanceStore from '../store/useFinanceStore'
+import { toast } from 'react-hot-toast'
+
 
 export default function AddTransactionForm() {
   const { addTransaction, setShowAddForm } = useFinanceStore()
@@ -12,7 +14,17 @@ export default function AddTransactionForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!formData.amount || !formData.category) return
+
+    const amountValue = parseFloat(formData.amount)
+    if (isNaN(amountValue) || amountValue <= 0) {
+      toast.error('Amount must be greater than 0')
+      return
+    }
+
+    if (!formData.category) {
+      toast.error('Please select a category')
+      return
+    }
 
     const created = new Date()
     const selectedDate = new Date(formData.date)
@@ -20,10 +32,12 @@ export default function AddTransactionForm() {
 
     addTransaction({
       ...formData,
-      amount: parseFloat(formData.amount),
+      amount: amountValue,
       datetime: selectedDate.toISOString(),
       date: selectedDate.toISOString().split('T')[0],
     })
+
+    toast.success(`₹${formData.amount} ${formData.type} added successfully`)
 
     setFormData({
       date: new Date().toISOString().split('T')[0],
@@ -74,7 +88,7 @@ export default function AddTransactionForm() {
             <input
               type="number"
               step="0.01"
-              min="0"
+              min="0.01"
               value={formData.amount}
               onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
               placeholder="Enter amount"
