@@ -47,67 +47,76 @@ const getHighestExpenseCategory = (transactions) => {
 const useFinanceStore = create(
   persist(
     (set, get) => ({
-  // =========================
-  // STATE
-  // =========================
-  transactions: mockTransactions,
-  role: 'viewer',
-  search: '',
-  filterType: 'all',
-  showAddForm: false,
-  sortBy: 'date',
-  sortOrder: 'desc',
-  darkMode: false,
-  balanceVisible: true,
+      // =========================
+      // STATE
+      // =========================
+      transactions: mockTransactions,
+      role: 'viewer',
+      search: '',
+      filterType: 'all',
+      showAddForm: false,
+      sortBy: 'date',
+      sortOrder: 'desc',
+      darkMode: false,
+      balanceVisible: false, // ✅ closed by default
 
-  // =========================
-  // ACTIONS
-  // =========================
-  setRole: (role) => set({ role }),
+      // =========================
+      // ACTIONS
+      // =========================
+      setRole: (role) => set({ role }),
+      setSearch: (search) => set({ search }),
+      setFilterType: (filterType) => set({ filterType }),
+      setShowAddForm: (show) => set({ showAddForm: show }),
+      setSortBy: (sortBy) => set({ sortBy }),
+      setSortOrder: (sortOrder) => set({ sortOrder }),
+      setDarkMode: (darkMode) => set({ darkMode }),
+      toggleDarkMode: () =>
+        set((state) => ({ darkMode: !state.darkMode })),
 
-  setSearch: (search) => set({ search }),
+      toggleBalanceVisibility: () =>
+        set((state) => ({
+          balanceVisible: !state.balanceVisible,
+        })),
 
-  setFilterType: (filterType) => set({ filterType }),
+      addTransaction: (newTransaction) =>
+        set({
+          transactions: [
+            ...get().transactions,
+            {
+              id: Date.now(),
+              ...newTransaction,
+            },
+          ],
+        }),
 
-  setShowAddForm: (show) => set({ showAddForm: show }),
+      // =========================
+      // DERIVED VALUES
+      // =========================
+      getSummary: () => calculateSummary(get().transactions),
 
-  setSortBy: (sortBy) => set({ sortBy }),
+      getInsights: () => {
+        const transactions = get().transactions
+        const { highestCategory, highestAmount } =
+          getHighestExpenseCategory(transactions)
 
-  setSortOrder: (sortOrder) => set({ sortOrder }),
-
-  setDarkMode: (darkMode) => set({ darkMode }),
-
-  toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
-
-  toggleBalanceVisibility: () => set((state) => ({ balanceVisible: !state.balanceVisible })),
-
-  addTransaction: (newTransaction) =>
-    set({
-      transactions: [...get().transactions, {
-        id: Date.now(),
-        ...newTransaction
-      }],
+        return {
+          highestCategory,
+          highestAmount,
+          totalTransactions: transactions.length,
+        }
+      },
     }),
-
-  // =========================
-  // DERIVED VALUES
-  // =========================
-  getSummary: () => calculateSummary(get().transactions),
-  getInsights: () => {
-  const transactions = get().transactions
-  const { highestCategory, highestAmount } =
-    getHighestExpenseCategory(transactions)
-
-  return {
-    highestCategory,
-    highestAmount,
-    totalTransactions: transactions.length,
-  }
-},
-})),
     {
       name: 'finance-dashboard-storage',
+
+      // ✅ do not save balance visibility
+      partialize: (state) => ({
+        transactions: state.transactions,
+        role: state.role,
+        darkMode: state.darkMode,
+      }),
     }
   )
+)
 
 export default useFinanceStore
