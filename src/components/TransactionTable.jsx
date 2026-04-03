@@ -37,8 +37,8 @@ export default function TransactionTable() {
 
     switch (sortBy) {
       case 'date':
-        aValue = new Date(a.date)
-        bValue = new Date(b.date)
+        aValue = new Date(a.datetime || a.date)
+        bValue = new Date(b.datetime || b.date)
         break
       case 'amount':
         aValue = a.amount
@@ -78,7 +78,7 @@ export default function TransactionTable() {
   const getTransactionsByDuration = () => {
     const now = new Date()
     const filtered = transactions.filter((tx) => {
-      const txDate = new Date(tx.date)
+      const txDate = new Date(tx.datetime || tx.date)
 
       switch (exportDuration) {
         case 'month':
@@ -324,14 +324,20 @@ export default function TransactionTable() {
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-slate-900 dark:text-white">
-                      {new Date(tx.date).toLocaleDateString('en-US', {
+                      {new Date(tx.datetime || tx.date).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'short',
                         day: 'numeric'
                       })}
                     </div>
                     <div className="text-xs text-slate-500 dark:text-slate-400">
-                      {new Date(tx.date).toLocaleDateString('en-US', { weekday: 'short' })}
+                      {new Date(tx.datetime || tx.date).toLocaleDateString('en-US', { weekday: 'short' })},
+                      {' '}
+                      {new Date(tx.datetime || tx.date).toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false,
+                      })}
                     </div>
                   </td>
 

@@ -15,8 +15,8 @@ export default function Dashboard() {
   return (
     <div className={`min-h-screen ${darkMode ? 'bg-slate-900 text-white' : 'bg-slate-100'}`}>
       <Navbar />
-      <div className="p-4 md:p-8">
-        <div className="mx-auto max-w-7xl space-y-8">
+      <div className="pt-4 px-4 pb-4 md:px-8 md:pb-8">
+  <div className="mx-auto max-w-7xl space-y-8">
           {/* Page Header */}
           <div id="overview">
             <h1 className={`text-3xl font-bold ${darkMode ? 'text-white' : 'text-slate-800'}`}>

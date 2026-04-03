@@ -58,6 +58,7 @@ const useFinanceStore = create(
   sortBy: 'date',
   sortOrder: 'desc',
   darkMode: false,
+  balanceVisible: true,
 
   // =========================
   // ACTIONS
@@ -77,6 +78,8 @@ const useFinanceStore = create(
   setDarkMode: (darkMode) => set({ darkMode }),
 
   toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
+
+  toggleBalanceVisibility: () => set((state) => ({ balanceVisible: !state.balanceVisible })),
 
   addTransaction: (newTransaction) =>
     set({
