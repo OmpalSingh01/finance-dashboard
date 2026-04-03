@@ -230,6 +230,8 @@ npm run lint     # Run ESLint code quality check
 - ✅ **Professional Footer** - Added company links and information
 - ✅ **Enhanced Insights** - Card-based layout with better visual hierarchy
 - ✅ **FAB Button** - Floating action button for mobile transaction creation
+- ✅ Toast Notifications – Better user feedback for add, delete, and export actions  
+- ✅ Input Validation – Prevents ₹ amount values less than or equal to 0  
 
 ## 🚀 Future Enhancements
 
