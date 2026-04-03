@@ -1,6 +1,35 @@
-# Finance Dashboard
+# 💰 FIN TRACK - A Product of ZORVYN
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white" />
+  <img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white" />
+  <img src="https://img.shields.io/badge/State-Zustand-orange?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/TailwindCSS-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />
+  <img src="https://img.shields.io/badge/Charts-Recharts-22C55E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Live-Vercel-black?style=for-the-badge&logo=vercel" />
+</p>
+
+
+## 🌐 Live Demo
+
+- Hosted on Vercel: https://finance-dashboard-lac-rho.vercel.app/
 
 A modern, professional finance dashboard built with React, Vite, and Tailwind CSS. Features real-time financial tracking, role-based access control, dark mode, and a responsive mobile-first design.
+
+
+## 📸 Preview
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/154703dc-3c34-46fb-8f72-3014632e3257" height="300" />
+  <img src="https://github.com/user-attachments/assets/205e419e-a034-499a-8eb0-d398d7f5f52f" height="300" />
+</p>
+
+
+## 🎯 Problem Statement
+Managing personal finances manually can be difficult and error-prone. 
+This dashboard solves that by providing a clean, responsive interface 
+for tracking income, expenses, analytics, and exporting financial data.
+
 
 ## 🚀 Features
 
@@ -54,6 +83,9 @@ A modern, professional finance dashboard built with React, Vite, and Tailwind CS
 - **Form Validation**: Client-side validation for transactions
 - **Linting**: ESLint for code quality
 
+## 🔄 Data Flow
+UI Components → Zustand Store → Derived Analytics → Recharts → CSV Export
+
 ## 📦 Installation & Setup
 
 1. **Clone the repository**
@@ -61,10 +93,6 @@ A modern, professional finance dashboard built with React, Vite, and Tailwind CS
    git clone <repository-url>
    cd finance-dashboard
    ```
-
-## 🌐 Live Demo
-
-- Hosted on Vercel: https://finance-dashboard-lac-rho.vercel.app/
 
 2. **Install dependencies**
    ```bash
@@ -179,6 +207,19 @@ npm run lint     # Run ESLint code quality check
 - **Empty States**: Helpful messaging with icons when no data available
 - **Professional Layout**: Consistent spacing and alignment throughout
 - **Accessibility**: Semantic HTML, aria-labels, and keyboard navigation support
+
+## ⚡ Performance Optimizations
+- Zustand selectors to avoid unnecessary re-renders
+- Lazy loaded charts
+- Memoized derived analytics
+- Optimized Vite production bundle
+
+## 📚 Challenges & Learnings
+- Built responsive financial charts using Recharts
+- Managed complex global state using Zustand
+- Implemented dark mode persistence
+- Optimized mobile transaction table UX
+- Added CSV export with time filtering
 
 ## 🚀 Recent Updates (v2.0)
 
