@@ -13,66 +13,92 @@ import useFinanceStore from '../store/useFinanceStore'
 
 export default function BalanceChart() {
   const { transactions } = useFinanceStore()
-  const [range, setRange] = useState('lastMonth')
+  const [range, setRange] = useState('all')
+
+  const getTxDate = (tx) => new Date(tx.date || tx.datetime)
 
   const filteredTransactions = useMemo(() => {
     const now = new Date()
 
     return transactions.filter((tx) => {
-      const txDate = new Date(tx.date)
+      const txDate = getTxDate(tx)
+
+      if (isNaN(txDate)) return false
 
       switch (range) {
-  case 'all':
-    return true
+        case 'all':
+          return true
 
-  case 'lastMonth': {
-    const lastMonth = new Date()
-    lastMonth.setMonth(now.getMonth() - 1)
+        case 'lastMonth': {
+          const startOfLastMonth = new Date(
+            now.getFullYear(),
+            now.getMonth() - 1,
+            1
+          )
 
-    return (
-      txDate.getMonth() === lastMonth.getMonth() &&
-      txDate.getFullYear() === lastMonth.getFullYear()
-    )
-  }
+          const endOfLastMonth = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            0,
+            23,
+            59,
+            59
+          )
 
-  case 'lastYear':
-    return txDate.getFullYear() === now.getFullYear() - 1
+          return txDate >= startOfLastMonth && txDate <= endOfLastMonth
+        }
 
-  case '2025':
-    return txDate.getFullYear() === 2025
+        case 'lastYear':
+          return txDate.getFullYear() === now.getFullYear() - 1
 
-  case '2024':
-    return txDate.getFullYear() === 2024
+        case '2026':
+          return txDate.getFullYear() === 2026
 
-  default:
-    return true
-}
+        case '2025':
+          return txDate.getFullYear() === 2025
+
+        case '2024':
+          return txDate.getFullYear() === 2024
+
+        default:
+          return true
+      }
     })
   }, [transactions, range])
 
-  const sortedTransactions = [...filteredTransactions].sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
-  )
+  const chartData = useMemo(() => {
+    const sortedTransactions = [...filteredTransactions].sort(
+      (a, b) => getTxDate(a).getTime() - getTxDate(b).getTime()
+    )
 
-  const chartData = sortedTransactions.reduce((acc, tx) => {
-    const lastBalance = acc.length > 0 ? acc[acc.length - 1].balance : 0
-    const newBalance =
-      lastBalance + (tx.type === 'income' ? tx.amount : -tx.amount)
+    return sortedTransactions.reduce((acc, tx) => {
+  const lastBalance =
+    acc.length > 0 ? acc[acc.length - 1].balance : 0
 
-    acc.push({
-      date: new Date(tx.date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      }),
-      balance: newBalance,
-    })
+  const newBalance =
+    lastBalance + (tx.type === 'income' ? tx.amount : -tx.amount)
 
-    return acc
-  }, [])
+  const txDate = getTxDate(tx)
+
+  acc.push({
+    date: txDate.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+    }),
+    fullDate: txDate.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }),
+    balance: newBalance,
+  })
+
+  return acc
+    }, [])
+  }, [filteredTransactions])
 
   return (
-    <div className="h-96 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+    <div className="h-96 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg font-semibold text-slate-800 dark:text-white">
           Balance Trend
@@ -81,11 +107,12 @@ export default function BalanceChart() {
         <select
           value={range}
           onChange={(e) => setRange(e.target.value)}
-          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-700 dark:text-white"
+          className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-blue-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
         >
           <option value="all">All</option>
           <option value="lastMonth">Last Month</option>
           <option value="lastYear">Last Year</option>
+          <option value="2026">2026</option>
           <option value="2025">2025</option>
           <option value="2024">2024</option>
         </select>
@@ -104,7 +131,8 @@ export default function BalanceChart() {
             <CartesianGrid
               strokeDasharray="3 3"
               vertical={false}
-              stroke="#e2e8f0"
+              stroke="#334155"
+              opacity={0.2}
             />
 
             <XAxis
@@ -121,35 +149,36 @@ export default function BalanceChart() {
             />
 
             <Tooltip
-              contentStyle={{
-                borderRadius: '12px',
-                border: '1px solid #e2e8f0',
-                boxShadow: '0 4px 14px rgba(0,0,0,0.08)',
-              }}
-              formatter={(value) => [`₹${value.toLocaleString()}`, 'Balance']}
+              labelFormatter={(label, payload) =>
+                payload?.[0]?.payload?.fullDate || label
+              }
+              formatter={(value) => [
+                `₹${Number(value).toLocaleString()}`,
+                'Balance',
+              ]}
             />
 
             <Area
-              type="monotone"
-              dataKey="balance"
-              stroke="none"
-              fill="url(#balanceGradient)"
-              tooltipType="none"
-            />
+                type="monotone"
+                dataKey="balance"
+                stroke="none"
+                fill="url(#balanceGradient)"
+                tooltipType="none"
+              />
 
-            <Line
-              type="monotone"
-              dataKey="balance"
-              stroke="#2563eb"
-              strokeWidth={3}
-              dot={{ r: 4, strokeWidth: 2, fill: '#fff' }}
-              activeDot={{ r: 6 }}
-            />
+              <Line
+                type="monotone"
+                dataKey="balance"
+                stroke="#2563eb"
+                strokeWidth={3}
+                dot={{ r: 4, strokeWidth: 2, fill: '#fff' }}
+                activeDot={{ r: 6 }}
+              />
           </AreaChart>
         </ResponsiveContainer>
       ) : (
         <div className="flex h-3/4 items-center justify-center">
-          <p className="text-slate-500 dark:text-slate-400">
+          <p className="text-slate-500 dark:text-zinc-400">
             No transaction data available
           </p>
         </div>

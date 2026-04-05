@@ -104,4 +104,47 @@ export const mockTransactions = [
     category: 'Gift',
     type: 'income',
   },
+
+  {
+  id: 16,
+  date: '2026-04-16T10:30:00.000Z',
+  amount: 1800,
+  category: 'Food',
+  type: 'expense',
+},
+{
+  id: 17,
+  date: '2026-04-17T18:15:00.000Z',
+  amount: 4000,
+  category: 'Bonus',
+  type: 'income',
+},
+{
+  id: 18,
+  date: '2025-01-12T09:00:00.000Z',
+  amount: 35000,
+  category: 'Salary',
+  type: 'income',
+},
+{
+  id: 19,
+  date: '2025-03-08T14:20:00.000Z',
+  amount: 2200,
+  category: 'Travel',
+  type: 'expense',
+},
+{
+  id: 20,
+  date: '2025-07-19T16:45:00.000Z',
+  amount: 5000,
+  category: 'Freelance',
+  type: 'income',
+},
+{
+  id: 21,
+  date: '2025-11-25T11:10:00.000Z',
+  amount: 1500,
+  category: 'Shopping',
+  type: 'expense',
+},
 ]
